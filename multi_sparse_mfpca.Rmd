@@ -1,0 +1,521 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+preparation: basic settings, package
+```{r}
+# load packages
+library(refund)
+library(MASS)
+library(Matrix)
+library(mgcv)
+library(splines)
+library(rARPACK)
+library(dplyr)
+library(usethis)
+library(devtools)
+library(fields)
+library(spam)
+library(viridisLite)                                                                            
+library(face)
+# require(refund)
+library(splines)
+# setwd("./code")
+setwd("~/Desktop/functional data analysis/R package")
+source("./code/GeneData.R")
+
+## the mfpca.face() function below is now in refund
+## we load the script here just for demonstration purposes
+source("./code/mfpca.face.R")
+source("./code/face.Cov.mfpca.R") # a supplementary function, also in refund
+
+
+# set parameters
+I <- 100
+J <- 2
+K1 <- 4
+K2 <- 4
+design <- "regular"
+balance <- FALSE
+sigma <- 1
+
+# create a data frame to store simulation results
+nsim <- 10
+
+```
+method1: block data -> dense mfpca
+```{r}
+set.seed(0101)
+L <- 1000
+ind <- 1
+nsim=10
+missing_rate = 0.8
+sim_res <- data.frame(matrix(NA, nrow = nsim, ncol = 8))
+colnames(sim_res) <- c("I", "J", "L", "iteration", 
+                       "comptime", "MISE(Y)", "MISE(Phi)", "MISE(Psi)")
+
+nitem = 5 #The number of cells to be merged into one
+#STORE eigen function  level_rank
+efunction1_1 <- matrix(nrow = L/nitem, ncol = nsim)
+efunction1_2 <- matrix(nrow = L/nitem, ncol = nsim)
+efunction1_3 <- matrix(nrow = L/nitem, ncol = nsim)
+efunction1_4 <- matrix(nrow = L/nitem, ncol = nsim)
+efunction2_1 <- matrix(nrow = L/nitem, ncol = nsim)
+efunction2_2 <- matrix(nrow = L/nitem, ncol = nsim)
+efunction2_3 <- matrix(nrow = L/nitem, ncol = nsim)
+efunction2_4 <- matrix(nrow = L/nitem, ncol = nsim)
+evalue <- matrix(nrow = nsim,ncol=K1+K2) #store eigenvalue
+#data generation
+for(iter in 1:nsim){
+# set.seed(iter)
+  data <- GeneData(I = I, J = J, L = L, design = design, sigma = sigma, balanced = balance, level = 0.5)
+  Y <- data$Y
+  
+#store the original data with blocking
+  Y_or_block =  matrix(nrow = nrow(Y),ncol = ncol(Y)/nitem)
+  for (irow in 1:nrow(Y)) {
+    Y_or_block[irow,] <-apply(matrix(Y[irow,], ncol=nitem, byrow = TRUE),1, mean,na.rm=TRUE)
+  }
+    
+# store the id of data by genedata function
+  element_number <- sequence(table(data$id))  
+  id_index  <- cbind(data$id, element_number)  
+  
+##set missing data
+  num_missing <- round(missing_rate * length(Y))  
+  missing_indices <- sample(length(Y), num_missing)  
+  Y[missing_indices] <- NA  
+  
+  Y_block =  matrix(nrow = nrow(Y),ncol = ncol(Y)/nitem)
+  for (irow in 1:nrow(Y)) {
+    Y_block[irow,] <-apply(matrix(Y[irow,], ncol=nitem,byrow = TRUE),1, mean,na.rm=TRUE)
+  }
+  # Y_block <- matrix(apply(matrix(Y, ncol=5,byrow = TRUE), 1, mean,na.rm=TRUE),nrow = nrow(Y),byrow = TRUE)   
+  ## true eigenvalues and eigenfunctions
+  evalues_true <- data$evalues 
+  eigenf_true <- data$eigenfunctions
+  ## other parameters for estimation
+  id <- data$id
+
+# mfpca part
+
+
+  ptm <- proc.time()
+  # fit_fast <- mfpca.face(Y = Y_block, id = id, weight = "obs" ,knots =35)
+  fit_fast <- mfpca.face(Y = Y_block, id = id, weight = "obs" ) #weight doesn't matter for which one
+  time_fast <- proc.time() - ptm
+  # MISE of observations
+  diff1 <- 0
+  num <- 0
+  for(i in 1:nrow(Y_block)){
+    idx = which(!is.na(Y_block[i, ]))
+    num = num + length(idx)
+    diff1 = diff1 + sum(abs(fit_fast$Xhat[i,idx]-Y_block[i,idx])^2)
+  }
+  MISE1_Y <- diff1/sum(!is.na(Y_block))  
+  # MISE of eigenfucntions
+  ef_block1 <- matrix(nrow = nrow(eigenf_true[[1]])/nitem, ncol = ncol(eigenf_true[[1]]))
+  for (icol in 1:ncol(eigenf_true[[1]])) {
+    ef_block1[,icol] <-apply(matrix(eigenf_true[[1]][,icol], nrow = nitem),2, mean,na.rm=TRUE)
+  }
+  ef_block2 <- matrix(nrow = nrow(eigenf_true[[2]])/nitem, ncol = ncol(eigenf_true[[2]]))
+  for (icol in 1:ncol(eigenf_true[[2]])) {
+    ef_block2[,icol] <-apply(matrix(eigenf_true[[2]][,icol], nrow = nitem),2, mean,na.rm=TRUE)
+  }
+  MISE1_eigen1 <- sum(unlist(lapply(1:K1, function(x){
+    min(sum((ef_block1[,x]-fit_fast$efunctions[[1]][,x])^2),
+        sum((ef_block1[,x]+fit_fast$efunctions[[1]][,x])^2))})))/(K1*L)
+  MISE1_eigen2 <- sum(unlist(lapply(1:K2, function(x){
+    min(sum((ef_block2[,x]-fit_fast$efunctions[[2]][,x])^2),
+        sum((ef_block2[,x]+fit_fast$efunctions[[2]][,x])^2))})))/(K2*L)
+
+  # sim_res[ind,1:8] <- round(c(I, J, L, iter, time_fast[3], MISE1_Y, MISE1_eigen1, MISE1_eigen2),4)
+  # sim_res[ind,9] <- "mfpca.face (visit)"
+  # ind <- ind + 1
+  
+  efunction1_1[,iter] <- fit_fast[["efunctions"]][["level1"]][,1]
+  efunction1_2[,iter] <- fit_fast[["efunctions"]][["level1"]][,2]
+  efunction1_3[,iter] <- fit_fast[["efunctions"]][["level1"]][,3]
+  efunction1_4[,iter] <- fit_fast[["efunctions"]][["level1"]][,4]
+  
+  efunction2_1[,iter] <- fit_fast[["efunctions"]][["level2"]][,1]
+  efunction2_2[,iter] <- fit_fast[["efunctions"]][["level2"]][,2]
+  efunction2_3[,iter] <- fit_fast[["efunctions"]][["level2"]][,3]
+  efunction2_4[,iter] <- fit_fast[["efunctions"]][["level2"]][,4]
+  
+  evalue[iter,1:4] <- fit_fast[["evalues"]][["level1"]][1:4]
+  evalue[iter,5:8] <- fit_fast[["evalues"]][["level2"]][1:4]
+ 
+  sim_res[iter,1:8] <- round(c(I, J, L, iter, time_fast[3], MISE1_Y, MISE1_eigen1, MISE1_eigen2),4)
+  print(iter)
+  
+}
+
+  print(sim_res)
+
+```
+method2:face.sparse
+```{r}
+
+set.seed(0716)
+#L need to be small (<=100) to make the program available
+L=50
+nsim = 10
+sim_res <- data.frame(matrix(NA, nrow = nsim, ncol = 8))
+colnames(sim_res) <- c("I", "J", "L", "iteration", 
+                       "comptime", "MISE(Y)", "MISE(Phi)", "MISE(Psi)")
+e2function <- array(dim = c(L, nsim, 8))
+e2value <- matrix(nrow = nsim,ncol=K1+K2)
+#data generation
+for (iter in 1 :nsim) {
+  data0 <- GeneData(I = I, J = J, L = L, design = design, sigma = sigma, balanced = balance, level = 0.5)
+Y <- data0$Y
+## true eigenvalues and eigenfunctions
+  evalues_true <- data0$evalues 
+  eigenf_true <- data0$eigenfunctions
+#store data
+  element_number <- sequence(table(data0$id))  
+  Index_A  <- cbind(data0$id, element_number) 
+  
+#set missing data
+  missing_rate = 0.95
+  num_missing <- round(missing_rate * length(Y))  
+  missing_indices <- sample(length(Y), num_missing) 
+  Y[missing_indices] <- NA  
+  
+#use sim_res to store some criteria
+sim_res <- data.frame(matrix(NA, nrow = nsim, ncol = 8), rep(NA,nsim))
+colnames(sim_res) <- c("I", "J", "L", "iteration", 
+                       "comptime", "MISE(Y)", "MISE(Phi)", "MISE(Psi)", "method")
+
+#organize data into the form FACE function needing
+n <- nrow(Y)
+Tt <- ncol(Y)
+id <- Index_A[rep(1:nrow(Index_A), each = L),1 ]  
+t <- rep(1:L,times=n)
+y <- as.vector(t(Y))
+sel <- which(is.na(y))
+data <- data.frame(y=(y[-sel]),
+argvals = t[-sel],
+subj = id[-sel])
+
+#FACE 1.0, calculate total variance 
+## set calculate.scores to TRUE if want to get scores
+ptm <- proc.time() #timing
+fit_face <- face.sparse(data,argvals.new=(1:L),calculate.scores=TRUE)
+time_fast <- proc.time() - ptm
+scores <- fit_face$rand_eff$scores
+data.h <- data
+tnew <- fit_face$argvals.new
+
+ 
+#####FACE2.0 within subject calculation####
+
+#take average by subject
+mean_sub <- matrix(0,nrow=length(unique(Index_A[,2])),ncol=T)  #store 
+B <- Index_A[,2]
+for (i in unique(Index_A[,2])) {  
+  temp <- matrix(Y[B==i], ncol = T, byrow = TRUE)  
+  mean_sub[i,] <- colMeans(temp,na.rm=TRUE)
+    # mean(A[,na.rm = TRUE)  
+}  
+#Subtract the mean within subject
+Y_2 <- matrix(0,nrow(Y),L)
+for (i in 1:nrow(Y)) {
+  Y_2[i,] <- Y[i,] - mean_sub[B[i],]
+}
+y2 <- as.vector(t(Y_2))
+# sel <- which(is.na(y))
+## organize data and apply FACEs
+data <- data.frame(y=(y2[-sel]),
+argvals = t[-sel],
+subj = id[-sel])
+
+#FACE function and timing
+ptm <- proc.time()
+fit_face_w <- face.sparse(data,argvals.new=(1:L),calculate.scores = TRUE)
+time_fast <- proc.time() - ptm
+
+#calculate between subject variance, eigen functions and value
+  Theta_t = fit_face$Theta 
+  Theta_w = fit_face_w$Theta
+  Theta_b = Theta_t-Theta_w
+  ef_t = fit_face$eigenfunctions
+  ef_w = fit_face_w$eigenfunctions
+  ef_b = ef_w[,1:4]%*% (solve(eigen(Theta_w)$vectors)%*%eigen(Theta_t-Theta_w)$vectors)[1:4,1:4]
+  evalue_b <- eigen(Theta_b,symmetric = TRUE)$value[1:4]
+  
+# evalue_b <- evalue_b/evalue_b[1]
+  e2function[,iter,1]  <- fit_face_w[["eigenfunctions"]][,1]
+  e2function[,iter,2] <- fit_face_w[["eigenfunctions"]][,2]
+  e2function[,iter,3] <- fit_face_w[["eigenfunctions"]][,3]
+  e2function[,iter,4] <- fit_face_w[["eigenfunctions"]][,4]
+  
+  e2function[,iter,5] <- ef_b[,1]
+  e2function[,iter,6] <- ef_b[,2]
+  e2function[,iter,7] <- ef_b[,3]
+  e2function[,iter,8] <- ef_b[,4]
+  
+  e2value[iter,1:4] <- fit_face_w[["eigenvalues"]][1:4]
+  e2value[iter,5:8] <- evalue_b[1:4]
+  
+  #MISE of Y
+  diff1 <- sum((abs(fit_face_w$y.pred)-abs(data$y))^2)
+  # Xhat <- fit_face_w$eigenfunctions[,1:K2]%*%fit_face_w$eigenvalues[1:K2]+ef_b%*%evalue_b
+  MISE1_Y <- diff1/sum(data$y!=0)
+  
+  # MISE of eigenfucntions
+  # MISE1_eigen1 <- sum(unlist(lapply(1:K1, function(x){
+  #   min(sum((eigenf_true[[1]][,x]-ef_b)^2),
+  #       sum((eigenf_true[[1]][,x]+ef_b)^2))})))/(K1*L)
+  # MISE1_eigen2 <- sum(unlist(lapply(1:K2, function(x){
+  #   min(sum((eigenf_true[[2]][,x]-fit_face_w$eigenfunctions[,x])^2),
+  #       sum((eigenf_true[[2]][,x]+fit_face_w$eigenfunctions[,x])^2))})))/(K2*L)
+  
+  #MISE of eigenfunction (abs to deal with uncertain positive and negative)
+  MISE1_eigen1 <- sum(unlist(lapply(1:K1, function(x){
+    sum((abs(eigenf_true[[1]][,x])-abs(ef_b[,x]))^2)/(K1*L)})))
+  MISE1_eigen2 <- sum(unlist(lapply(1:K2, function(x){
+    sum((abs(eigenf_true[[2]][,x])-abs(fit_face_w$eigenfunctions[,x]))^2)/(K2*L)})))
+  sim_res[iter,1:8] <- round(c(I, J, L, iter, time_fast[3], MISE1_Y, MISE1_eigen1, MISE1_eigen2),4)
+  
+  print(iter)
+}
+
+  #output
+  print(sim_res)
+
+```
+plot1: method1-eigenfunction (running it after running method 1)
+```{r}
+library(ggplot2)  
+library(dplyr)  
+
+# 创建示例数组A和B  
+A <- eigenf_true[["level1"]][,1]
+B <- efunction1_1
+  # 创建时间序列  
+time_A <- seq(1, L, by = 1)  
+time_B <- seq(1, L, by =nitem)
+  
+#to deal with uncertain positive or negative, seek first min or max
+if(abs(A[1])<0.8){
+  first_A<- min(which(diff(sign(diff(A))) == -2)[1],which(diff(sign(diff(A))) == 2)[1],na.rm=TRUE)
+  first_value_A <- A[first_A]  
+    for (ii in 1:dim(B)[2]) {
+      first_B<- min(which(diff(sign(diff(B[,ii]))) == -2)[1],which(diff(sign(diff(B[,ii]))) == 2)[1],na.rm=TRUE)
+      first_value_B <- B[first_B,ii]  
+      ##如果异号，则颠倒
+      if(first_value_A*first_value_B <0 )
+        B[,ii] <- -B[,ii]
+    }
+}else{
+    first_value_A <- A[1] 
+    for (ii in 1:dim(B)[2]) {
+      first_value_B <- B[1,ii]  
+      ##如果异号，则颠倒
+      if(first_value_A*first_value_B <0 )
+        B[,ii] = -B[,ii]
+    }
+}
+
+# data frame for plotting
+df_A <- data.frame(  
+  time = time_A,  
+  value = A,  
+  group = "A"  
+)  
+  
+# df_B <- data.frame(  
+#   time = time_B,  
+#   value = as.vector(B),  
+#   group = "B"  
+# )  
+df_B <- lapply(1:dim(B)[2], function(ii) {  
+  data.frame(  
+    time = time_B,  
+    value = B[, ii],  
+    group = paste0("B", ii)  
+  )  
+})  
+df <- rbind(df_A, do.call(rbind, df_B))  
+    
+# plotting
+colors_vector = c("#000000", rep("#FFC0CB", 10))   #set the color you want
+ plot <- ggplot(df, aes(x = time, y = value, linetype = factor(group))) +      
+     geom_line(aes(color = factor(group), linetype = factor(group))) +    
+     scale_color_manual(values = colors_vector) +    
+     scale_linetype_manual(values = c("solid", rep("dashed", 10))) +  
+     theme(legend.position = "none")  
+# ggsave("e2f2_1.png", plot, width = 6, height = 4, units = "in", dpi = 300) #code to save picture
+print(plot)
+```
+plot:method2- eigenfunction (running it after running method2)
+```{r}
+library(ggplot2)  
+library(dplyr)  
+
+A <- eigenf_true[["level2"]][,4] #true eigenFunction, set different level and rank while plotting
+len <- length(A)
+B <- e2function[,,8] #simulation data, set different level and rank while plotting
+
+#to deal with uncertain positive or negative, seek first min or max
+if(abs(A[1])<0.8){
+  first_A<- min(which(diff(sign(diff(A))) == -2)[1],which(diff(sign(diff(A))) == 2)[1],na.rm=TRUE)
+  first_value_A <- A[first_A]  
+    for (ii in 1:dim(B)[2]) {
+      first_B<- min(which(diff(sign(diff(B[,ii]))) == -2)[1],which(diff(sign(diff(B[,ii]))) == 2)[1],na.rm=TRUE)
+      first_value_B <- B[first_B,ii]  
+      ##如果异号，则颠倒
+      if(first_value_A*first_value_B <0 )
+        B[,ii] <- -B[,ii]
+    }
+}else{
+    first_value_A <- A[1] 
+    for (ii in 1:dim(B)[2]) {
+      first_value_B <- B[1,ii]  
+      ##如果异号，则颠倒
+      if(first_value_A*first_value_B <0 )
+        B[,ii] = -B[,ii]
+    }
+}
+
+# time series to plot
+time_A <- seq(1, len, by = 1)  
+#for method1:block
+# time_B <- seq(1, len, by = nitem)[1:200]  # 通过选择前200个元素来匹配数组B的长度 ,block
+# for method 2
+time_B <- seq(1, len, by = 1)
+
+# data frame
+df_A <- data.frame(  
+  time = time_A,  
+  value = A,  
+  group = "A"  
+)  
+  
+# df_B <- data.frame(  
+#   time = rep(time_B, 10),  
+#   value = as.vector(B),  
+#   group = "B"  
+# )  
+#   
+# df <- rbind(df_A, df_B)  # 合并A和B的数据框  
+
+  # 创建包含所有组数据的数据框列表  
+df_B_list <- lapply(1:dim(B)[2], function(ii) {  
+  data.frame(  
+    time = time_B,  
+    value = B[, ii],  
+    group = paste0("B", ii)  
+  )  
+})  
+  
+# 合并A和B的数据框  
+df <- rbind(df_A, do.call(rbind, df_B_list)) 
+
+# # 使用ggplot2创建折线图，设置A和B数组的颜色  
+# plot <- ggplot(df, aes(x = time, y = value, color = factor(group), linetype = factor(group))) +    
+#   geom_line(aes(linetype = factor(group))) +  
+#   scale_color_manual(values = c("A" = "#000000", "B" = "#FF0000"),guide = FALSE ) +  
+#   theme(legend.position = "none")  
+# 创建一个包含所有组的颜色向量  
+  
+colors_vector = c("#000000", rep("#FFC0CB", 10))  
+ 
+ # 使用这个颜色向量来绘制图表  
+ plot <- ggplot(df, aes(x = time, y = value, linetype = factor(group))) +      
+     geom_line(aes(color = factor(group), linetype = factor(group))) +    
+     scale_color_manual(values = colors_vector) +    
+     scale_linetype_manual(values = c("solid", rep("dashed", 10))) +  
+     theme(legend.position = "none")  
+# ggsave("e2f2_4.png", plot, width = 6, height = 4, units = "in", dpi = 300)
+print(plot)
+```
+plot:eigen value- box plotting
+```{r}
+  
+y <- array(dim = K1+K2)
+y[1:4] <-evalues_true$level1
+y[5:8] <- evalues_true$level2
+
+df <- data.frame(  
+  group = rep(1:8, each = nsim),  
+  # value = c(evalue),  #method1
+  value = c(e2value),  #method2
+  real_value = y  
+)  
+df_points<-data.frame(
+  group = rep(1:8),  
+  value = y  
+)  
+
+#  box plot 
+p <- ggplot(df, aes(x = factor(group), y = value)) +  
+  geom_boxplot()  
+  
+# red point
+p <-p +   geom_point(data=df_points,aes(x =factor(group), y = value), color = "red", size = 1)  +
+  coord_cartesian(ylim = c(0, 5))   #y axe range
+print(p)
+setwd("~/Desktop/functional data analysis/R package")
+ggsave("evalue2.png", p, width = 6, height = 4, units = "in", dpi = 300)
+```
+method3: mfpca directly, for comparison
+```{r}
+set.seed(0107)
+L=50 
+
+#generate original data
+  data <- GeneData(I = I, J = J, L = L, design = design, sigma = sigma, balanced = balance, level = 0.5)
+  Y <- data$Y
+  #store true eigen value and function 
+  evalues_true <- data$evalues 
+  eigenf_true <- data$eigenfunctions
+ 
+#Extract  id from data(genedata function)
+  element_number <- sequence(table(data$id))  
+  id_index  <- cbind(data$id, element_number)  
+  
+  #set missing data
+  missing_rate <- 0.2
+  num_missing <- round(missing_rate * length(Y))  #how many
+  missing_indices <- sample(length(Y), num_missing)  # position  
+  Y[missing_indices] <- NA  
+  
+ 
+  #mfpca function &timing
+  ptm <- proc.time() 
+  mfpca.Y <- mfpca.face(Y = Y, id = data$id)
+  time_fast <- proc.time() - ptm
+ 
+  #MISE of Y
+  diff1=0
+  num=0
+  for(i in 1:nrow(Y)){
+      idx = which(!is.na(Y[i, ]))
+      num = num + length(idx)
+      diff1 = diff1 + sum(abs(mfpca.Y$Xhat[i,idx]-Y[i,idx])^2)
+    }
+  MISE1_Y <- diff1/num
+  
+  # MISE of eigenfucntions
+  MISE1_eigen1 <- sum(unlist(lapply(1:K1, function(x){
+    min(sum((eigenf_true[[1]][,x]-mfpca.Y $efunctions[[1]][,x])^2),
+        sum((eigenf_true[[1]][,x]+mfpca.Y $efunctions[[1]][,x])^2))})))/(K1*L)
+  MISE1_eigen2 <- sum(unlist(lapply(1:K2, function(x){
+    min(sum((eigenf_true[[2]][,x]-mfpca.Y $efunctions[[2]][,x])^2),
+        sum((eigenf_true[[2]][,x]+mfpca.Y $efunctions[[2]][,x])^2))})))/(K2*L)
+  
+  #output and print
+  sim_res <- data.frame(matrix(NA, nrow = 1, ncol = 8), rep(NA,1))
+  colnames(sim_res) <- c("I", "J", "L", "iteration", 
+                         "comptime", "MISE(Y)", "MISE(Phi)", "MISE(Psi)", "method")
+  ind <-1 
+  sim_res[ind,1:8] <- round(c(I, J, L, iter, time_fast[3], MISE1_Y, MISE1_eigen1, MISE1_eigen2),4)
+  sim_res[ind,9] <- "mfpca.face (visit)"
+  
+  print(sim_res)
+
+```
