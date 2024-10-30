@@ -1,0 +1,21 @@
+```{r}
+library(SemiPar)
+data(age.income)
+attach(age.income)
+plot(age,log.income)
+```
+
+```{r}
+library(ggplot2)  
+library(reshape2)  
+  
+# 将矩阵转换为数据框  
+heatmap_df <- melt(pred_error)  
+  
+# 绘制热力图  
+ggplot(heatmap_df,   
+  geom_tile() +  
+  scale_fill_gradient(low = "white", high = "red") +  
+  theme_minimal() +  
+  labs(title = "Heatmap")  
+```

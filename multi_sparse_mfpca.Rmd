@@ -23,12 +23,12 @@ library(face)
 library(splines)
 # setwd("./code")
 setwd("~/Desktop/functional data analysis/R package")
-source("./code/GeneData.R")
+source("./fast_MFPCA_code/GeneData.R")
 
 ## the mfpca.face() function below is now in refund
 ## we load the script here just for demonstration purposes
-source("./code/mfpca.face.R")
-source("./code/face.Cov.mfpca.R") # a supplementary function, also in refund
+source("./fast_MFPCA_code/mfpca.face.R")
+source("./fast_MFPCA_code/face.Cov.mfpca.R") # a supplementary function, also in refund
 
 
 # set parameters

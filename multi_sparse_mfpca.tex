@@ -1,0 +1,817 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+
+preparation: basic settings, package
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# load packages}
+\FunctionTok{library}\NormalTok{(refund)}
+\FunctionTok{library}\NormalTok{(MASS)}
+\FunctionTok{library}\NormalTok{(Matrix)}
+\FunctionTok{library}\NormalTok{(mgcv)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: nlme
+\end{verbatim}
+
+\begin{verbatim}
+## This is mgcv 1.9-0. For overview type 'help("mgcv-package")'.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(splines)}
+\FunctionTok{library}\NormalTok{(rARPACK)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:nlme':
+## 
+##     collapse
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:MASS':
+## 
+##     select
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(usethis)}
+\FunctionTok{library}\NormalTok{(devtools)}
+\FunctionTok{library}\NormalTok{(fields)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: spam
+\end{verbatim}
+
+\begin{verbatim}
+## Spam version 2.10-0 (2023-10-23) is loaded.
+## Type 'help( Spam)' or 'demo( spam)' for a short introduction 
+## and overview of this package.
+## Help for individual functions is also obtained by adding the
+## suffix '.spam' to the function name, e.g. 'help( chol.spam)'.
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'spam'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:Matrix':
+## 
+##     det
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     backsolve, forwardsolve
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: viridisLite
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Try help(fields) to get started.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(spam)}
+\FunctionTok{library}\NormalTok{(viridisLite)                                                                            }
+\FunctionTok{library}\NormalTok{(face)}
+\CommentTok{\# require(refund)}
+\FunctionTok{library}\NormalTok{(splines)}
+\CommentTok{\# setwd("./code")}
+\FunctionTok{setwd}\NormalTok{(}\StringTok{"\textasciitilde{}/Desktop/functional data analysis/R package"}\NormalTok{)}
+\FunctionTok{source}\NormalTok{(}\StringTok{"./code/GeneData.R"}\NormalTok{)}
+
+\DocumentationTok{\#\# the mfpca.face() function below is now in refund}
+\DocumentationTok{\#\# we load the script here just for demonstration purposes}
+\FunctionTok{source}\NormalTok{(}\StringTok{"./code/mfpca.face.R"}\NormalTok{)}
+\FunctionTok{source}\NormalTok{(}\StringTok{"./code/face.Cov.mfpca.R"}\NormalTok{) }\CommentTok{\# a supplementary function, also in refund}
+
+
+\CommentTok{\# set parameters}
+\NormalTok{I }\OtherTok{\textless{}{-}} \DecValTok{100}
+\NormalTok{J }\OtherTok{\textless{}{-}} \DecValTok{2}
+\NormalTok{K1 }\OtherTok{\textless{}{-}} \DecValTok{4}
+\NormalTok{K2 }\OtherTok{\textless{}{-}} \DecValTok{4}
+\NormalTok{design }\OtherTok{\textless{}{-}} \StringTok{"regular"}
+\NormalTok{balance }\OtherTok{\textless{}{-}} \ConstantTok{FALSE}
+\NormalTok{sigma }\OtherTok{\textless{}{-}} \DecValTok{1}
+
+\CommentTok{\# create a data frame to store simulation results}
+\NormalTok{nsim }\OtherTok{\textless{}{-}} \DecValTok{10}
+\end{Highlighting}
+\end{Shaded}
+
+method1: block data -\textgreater{} mfpca
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{0101}\NormalTok{)}
+\NormalTok{L }\OtherTok{\textless{}{-}} \DecValTok{1000}
+\NormalTok{ind }\OtherTok{\textless{}{-}} \DecValTok{1}
+\NormalTok{nsim}\OtherTok{=}\DecValTok{10}
+\NormalTok{missing\_rate }\OtherTok{=} \FloatTok{0.8}
+\NormalTok{sim\_res }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\AttributeTok{nrow =}\NormalTok{ nsim, }\AttributeTok{ncol =} \DecValTok{8}\NormalTok{))}
+\FunctionTok{colnames}\NormalTok{(sim\_res) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"I"}\NormalTok{, }\StringTok{"J"}\NormalTok{, }\StringTok{"L"}\NormalTok{, }\StringTok{"iteration"}\NormalTok{, }
+                       \StringTok{"comptime"}\NormalTok{, }\StringTok{"MISE(Y)"}\NormalTok{, }\StringTok{"MISE(Phi)"}\NormalTok{, }\StringTok{"MISE(Psi)"}\NormalTok{)}
+
+\NormalTok{nitem }\OtherTok{=} \DecValTok{5} \CommentTok{\#The number of cells to be merged into one}
+\CommentTok{\#STORE eigen function  level\_rank}
+\NormalTok{efunction1\_1 }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow =}\NormalTok{ L}\SpecialCharTok{/}\NormalTok{nitem, }\AttributeTok{ncol =}\NormalTok{ nsim)}
+\NormalTok{efunction1\_2 }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow =}\NormalTok{ L}\SpecialCharTok{/}\NormalTok{nitem, }\AttributeTok{ncol =}\NormalTok{ nsim)}
+\NormalTok{efunction1\_3 }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow =}\NormalTok{ L}\SpecialCharTok{/}\NormalTok{nitem, }\AttributeTok{ncol =}\NormalTok{ nsim)}
+\NormalTok{efunction1\_4 }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow =}\NormalTok{ L}\SpecialCharTok{/}\NormalTok{nitem, }\AttributeTok{ncol =}\NormalTok{ nsim)}
+\NormalTok{efunction2\_1 }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow =}\NormalTok{ L}\SpecialCharTok{/}\NormalTok{nitem, }\AttributeTok{ncol =}\NormalTok{ nsim)}
+\NormalTok{efunction2\_2 }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow =}\NormalTok{ L}\SpecialCharTok{/}\NormalTok{nitem, }\AttributeTok{ncol =}\NormalTok{ nsim)}
+\NormalTok{efunction2\_3 }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow =}\NormalTok{ L}\SpecialCharTok{/}\NormalTok{nitem, }\AttributeTok{ncol =}\NormalTok{ nsim)}
+\NormalTok{efunction2\_4 }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow =}\NormalTok{ L}\SpecialCharTok{/}\NormalTok{nitem, }\AttributeTok{ncol =}\NormalTok{ nsim)}
+\NormalTok{evalue }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow =}\NormalTok{ nsim,}\AttributeTok{ncol=}\NormalTok{K1}\SpecialCharTok{+}\NormalTok{K2) }\CommentTok{\#store eigenvalue}
+\CommentTok{\#data generation}
+\ControlFlowTok{for}\NormalTok{(iter }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{nsim)\{}
+\CommentTok{\# set.seed(iter)}
+\NormalTok{  data }\OtherTok{\textless{}{-}} \FunctionTok{GeneData}\NormalTok{(}\AttributeTok{I =}\NormalTok{ I, }\AttributeTok{J =}\NormalTok{ J, }\AttributeTok{L =}\NormalTok{ L, }\AttributeTok{design =}\NormalTok{ design, }\AttributeTok{sigma =}\NormalTok{ sigma, }\AttributeTok{balanced =}\NormalTok{ balance, }\AttributeTok{level =} \FloatTok{0.5}\NormalTok{)}
+\NormalTok{  Y }\OtherTok{\textless{}{-}}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{Y}
+  
+\CommentTok{\#store the original data with blocking}
+\NormalTok{  Y\_or\_block }\OtherTok{=}  \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow =} \FunctionTok{nrow}\NormalTok{(Y),}\AttributeTok{ncol =} \FunctionTok{ncol}\NormalTok{(Y)}\SpecialCharTok{/}\NormalTok{nitem)}
+  \ControlFlowTok{for}\NormalTok{ (irow }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(Y)) \{}
+\NormalTok{    Y\_or\_block[irow,] }\OtherTok{\textless{}{-}}\FunctionTok{apply}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(Y[irow,], }\AttributeTok{ncol=}\NormalTok{nitem, }\AttributeTok{byrow =} \ConstantTok{TRUE}\NormalTok{),}\DecValTok{1}\NormalTok{, mean,}\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  \}}
+    
+\CommentTok{\# store the id of data by genedata function}
+\NormalTok{  element\_number }\OtherTok{\textless{}{-}} \FunctionTok{sequence}\NormalTok{(}\FunctionTok{table}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{id))  }
+\NormalTok{  id\_index  }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{id, element\_number)  }
+  
+\DocumentationTok{\#\#set missing data}
+\NormalTok{  num\_missing }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(missing\_rate }\SpecialCharTok{*} \FunctionTok{length}\NormalTok{(Y))  }
+\NormalTok{  missing\_indices }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\FunctionTok{length}\NormalTok{(Y), num\_missing)  }
+\NormalTok{  Y[missing\_indices] }\OtherTok{\textless{}{-}} \ConstantTok{NA}  
+  
+\NormalTok{  Y\_block }\OtherTok{=}  \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow =} \FunctionTok{nrow}\NormalTok{(Y),}\AttributeTok{ncol =} \FunctionTok{ncol}\NormalTok{(Y)}\SpecialCharTok{/}\NormalTok{nitem)}
+  \ControlFlowTok{for}\NormalTok{ (irow }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(Y)) \{}
+\NormalTok{    Y\_block[irow,] }\OtherTok{\textless{}{-}}\FunctionTok{apply}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(Y[irow,], }\AttributeTok{ncol=}\NormalTok{nitem,}\AttributeTok{byrow =} \ConstantTok{TRUE}\NormalTok{),}\DecValTok{1}\NormalTok{, mean,}\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  \}}
+  \CommentTok{\# Y\_block \textless{}{-} matrix(apply(matrix(Y, ncol=5,byrow = TRUE), 1, mean,na.rm=TRUE),nrow = nrow(Y),byrow = TRUE)   }
+  \DocumentationTok{\#\# true eigenvalues and eigenfunctions}
+\NormalTok{  evalues\_true }\OtherTok{\textless{}{-}}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{evalues }
+\NormalTok{  eigenf\_true }\OtherTok{\textless{}{-}}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{eigenfunctions}
+  \DocumentationTok{\#\# other parameters for estimation}
+\NormalTok{  id }\OtherTok{\textless{}{-}}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{id}
+
+\CommentTok{\# mfpca part}
+
+
+\NormalTok{  ptm }\OtherTok{\textless{}{-}} \FunctionTok{proc.time}\NormalTok{()}
+  \CommentTok{\# fit\_fast \textless{}{-} mfpca.face(Y = Y\_block, id = id, weight = "obs" ,knots =35)}
+\NormalTok{  fit\_fast }\OtherTok{\textless{}{-}} \FunctionTok{mfpca.face}\NormalTok{(}\AttributeTok{Y =}\NormalTok{ Y\_block, }\AttributeTok{id =}\NormalTok{ id, }\AttributeTok{weight =} \StringTok{"obs"}\NormalTok{ ) }\CommentTok{\#weight doesn\textquotesingle{}t matter for which one}
+\NormalTok{  time\_fast }\OtherTok{\textless{}{-}} \FunctionTok{proc.time}\NormalTok{() }\SpecialCharTok{{-}}\NormalTok{ ptm}
+  \CommentTok{\# MISE of observations}
+\NormalTok{  diff1 }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{  num }\OtherTok{\textless{}{-}} \DecValTok{0}
+  \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(Y\_block))\{}
+\NormalTok{    idx }\OtherTok{=} \FunctionTok{which}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(Y\_block[i, ]))}
+\NormalTok{    num }\OtherTok{=}\NormalTok{ num }\SpecialCharTok{+} \FunctionTok{length}\NormalTok{(idx)}
+\NormalTok{    diff1 }\OtherTok{=}\NormalTok{ diff1 }\SpecialCharTok{+} \FunctionTok{sum}\NormalTok{(}\FunctionTok{abs}\NormalTok{(fit\_fast}\SpecialCharTok{$}\NormalTok{Xhat[i,idx]}\SpecialCharTok{{-}}\NormalTok{Y\_block[i,idx])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{  \}}
+\NormalTok{  MISE1\_Y }\OtherTok{\textless{}{-}}\NormalTok{ diff1}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(Y\_block))  }
+  \CommentTok{\# MISE of eigenfucntions}
+\NormalTok{  ef\_block1 }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow =} \FunctionTok{nrow}\NormalTok{(eigenf\_true[[}\DecValTok{1}\NormalTok{]])}\SpecialCharTok{/}\NormalTok{nitem, }\AttributeTok{ncol =} \FunctionTok{ncol}\NormalTok{(eigenf\_true[[}\DecValTok{1}\NormalTok{]]))}
+  \ControlFlowTok{for}\NormalTok{ (icol }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(eigenf\_true[[}\DecValTok{1}\NormalTok{]])) \{}
+\NormalTok{    ef\_block1[,icol] }\OtherTok{\textless{}{-}}\FunctionTok{apply}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(eigenf\_true[[}\DecValTok{1}\NormalTok{]][,icol], }\AttributeTok{nrow =}\NormalTok{ nitem),}\DecValTok{2}\NormalTok{, mean,}\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  \}}
+\NormalTok{  ef\_block2 }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow =} \FunctionTok{nrow}\NormalTok{(eigenf\_true[[}\DecValTok{2}\NormalTok{]])}\SpecialCharTok{/}\NormalTok{nitem, }\AttributeTok{ncol =} \FunctionTok{ncol}\NormalTok{(eigenf\_true[[}\DecValTok{2}\NormalTok{]]))}
+  \ControlFlowTok{for}\NormalTok{ (icol }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(eigenf\_true[[}\DecValTok{2}\NormalTok{]])) \{}
+\NormalTok{    ef\_block2[,icol] }\OtherTok{\textless{}{-}}\FunctionTok{apply}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(eigenf\_true[[}\DecValTok{2}\NormalTok{]][,icol], }\AttributeTok{nrow =}\NormalTok{ nitem),}\DecValTok{2}\NormalTok{, mean,}\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  \}}
+\NormalTok{  MISE1\_eigen1 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(}\FunctionTok{lapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{K1, }\ControlFlowTok{function}\NormalTok{(x)\{}
+    \FunctionTok{min}\NormalTok{(}\FunctionTok{sum}\NormalTok{((ef\_block1[,x]}\SpecialCharTok{{-}}\NormalTok{fit\_fast}\SpecialCharTok{$}\NormalTok{efunctions[[}\DecValTok{1}\NormalTok{]][,x])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{),}
+        \FunctionTok{sum}\NormalTok{((ef\_block1[,x]}\SpecialCharTok{+}\NormalTok{fit\_fast}\SpecialCharTok{$}\NormalTok{efunctions[[}\DecValTok{1}\NormalTok{]][,x])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))\})))}\SpecialCharTok{/}\NormalTok{(K1}\SpecialCharTok{*}\NormalTok{L)}
+\NormalTok{  MISE1\_eigen2 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(}\FunctionTok{lapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{K2, }\ControlFlowTok{function}\NormalTok{(x)\{}
+    \FunctionTok{min}\NormalTok{(}\FunctionTok{sum}\NormalTok{((ef\_block2[,x]}\SpecialCharTok{{-}}\NormalTok{fit\_fast}\SpecialCharTok{$}\NormalTok{efunctions[[}\DecValTok{2}\NormalTok{]][,x])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{),}
+        \FunctionTok{sum}\NormalTok{((ef\_block2[,x]}\SpecialCharTok{+}\NormalTok{fit\_fast}\SpecialCharTok{$}\NormalTok{efunctions[[}\DecValTok{2}\NormalTok{]][,x])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))\})))}\SpecialCharTok{/}\NormalTok{(K2}\SpecialCharTok{*}\NormalTok{L)}
+
+  \CommentTok{\# sim\_res[ind,1:8] \textless{}{-} round(c(I, J, L, iter, time\_fast[3], MISE1\_Y, MISE1\_eigen1, MISE1\_eigen2),4)}
+  \CommentTok{\# sim\_res[ind,9] \textless{}{-} "mfpca.face (visit)"}
+  \CommentTok{\# ind \textless{}{-} ind + 1}
+  
+\NormalTok{  efunction1\_1[,iter] }\OtherTok{\textless{}{-}}\NormalTok{ fit\_fast[[}\StringTok{"efunctions"}\NormalTok{]][[}\StringTok{"level1"}\NormalTok{]][,}\DecValTok{1}\NormalTok{]}
+\NormalTok{  efunction1\_2[,iter] }\OtherTok{\textless{}{-}}\NormalTok{ fit\_fast[[}\StringTok{"efunctions"}\NormalTok{]][[}\StringTok{"level1"}\NormalTok{]][,}\DecValTok{2}\NormalTok{]}
+\NormalTok{  efunction1\_3[,iter] }\OtherTok{\textless{}{-}}\NormalTok{ fit\_fast[[}\StringTok{"efunctions"}\NormalTok{]][[}\StringTok{"level1"}\NormalTok{]][,}\DecValTok{3}\NormalTok{]}
+\NormalTok{  efunction1\_4[,iter] }\OtherTok{\textless{}{-}}\NormalTok{ fit\_fast[[}\StringTok{"efunctions"}\NormalTok{]][[}\StringTok{"level1"}\NormalTok{]][,}\DecValTok{4}\NormalTok{]}
+  
+\NormalTok{  efunction2\_1[,iter] }\OtherTok{\textless{}{-}}\NormalTok{ fit\_fast[[}\StringTok{"efunctions"}\NormalTok{]][[}\StringTok{"level2"}\NormalTok{]][,}\DecValTok{1}\NormalTok{]}
+\NormalTok{  efunction2\_2[,iter] }\OtherTok{\textless{}{-}}\NormalTok{ fit\_fast[[}\StringTok{"efunctions"}\NormalTok{]][[}\StringTok{"level2"}\NormalTok{]][,}\DecValTok{2}\NormalTok{]}
+\NormalTok{  efunction2\_3[,iter] }\OtherTok{\textless{}{-}}\NormalTok{ fit\_fast[[}\StringTok{"efunctions"}\NormalTok{]][[}\StringTok{"level2"}\NormalTok{]][,}\DecValTok{3}\NormalTok{]}
+\NormalTok{  efunction2\_4[,iter] }\OtherTok{\textless{}{-}}\NormalTok{ fit\_fast[[}\StringTok{"efunctions"}\NormalTok{]][[}\StringTok{"level2"}\NormalTok{]][,}\DecValTok{4}\NormalTok{]}
+  
+\NormalTok{  evalue[iter,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ fit\_fast[[}\StringTok{"evalues"}\NormalTok{]][[}\StringTok{"level1"}\NormalTok{]][}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{]}
+\NormalTok{  evalue[iter,}\DecValTok{5}\SpecialCharTok{:}\DecValTok{8}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ fit\_fast[[}\StringTok{"evalues"}\NormalTok{]][[}\StringTok{"level2"}\NormalTok{]][}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{]}
+ 
+\NormalTok{  sim\_res[iter,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{c}\NormalTok{(I, J, L, iter, time\_fast[}\DecValTok{3}\NormalTok{], MISE1\_Y, MISE1\_eigen1, MISE1\_eigen2),}\DecValTok{4}\NormalTok{)}
+  \FunctionTok{print}\NormalTok{(iter)}
+  
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1
+## [1] 2
+## [1] 3
+## [1] 4
+## [1] 5
+## [1] 6
+## [1] 7
+## [1] 8
+## [1] 9
+## [1] 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{print}\NormalTok{(sim\_res)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      I J    L iteration comptime MISE(Y) MISE(Phi) MISE(Psi)
+## 1  100 2 1000         1    2.593  0.7597    0.0061    0.0384
+## 2  100 2 1000         2    1.135  0.7616    0.0070    0.0089
+## 3  100 2 1000         3    0.689  0.7680    0.0863    0.0124
+## 4  100 2 1000         4    0.672  0.7630    0.1044    0.0056
+## 5  100 2 1000         5    0.647  0.7568    0.0499    0.0057
+## 6  100 2 1000         6    0.944  0.7465    0.0263    0.0192
+## 7  100 2 1000         7    0.750  0.7630    0.0288    0.0117
+## 8  100 2 1000         8    0.769  0.7595    0.0152    0.0047
+## 9  100 2 1000         9    0.633  0.7620    0.0094    0.0038
+## 10 100 2 1000        10    0.710  0.7625    0.0453    0.0080
+\end{verbatim}
+
+method2:face.sparse
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{0716}\NormalTok{)}
+\CommentTok{\#L need to be small (\textless{}=100) to make the program available}
+\NormalTok{L}\OtherTok{=}\DecValTok{50}
+\NormalTok{nsim }\OtherTok{=} \DecValTok{10}
+\NormalTok{sim\_res }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\AttributeTok{nrow =}\NormalTok{ nsim, }\AttributeTok{ncol =} \DecValTok{8}\NormalTok{))}
+\FunctionTok{colnames}\NormalTok{(sim\_res) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"I"}\NormalTok{, }\StringTok{"J"}\NormalTok{, }\StringTok{"L"}\NormalTok{, }\StringTok{"iteration"}\NormalTok{, }
+                       \StringTok{"comptime"}\NormalTok{, }\StringTok{"MISE(Y)"}\NormalTok{, }\StringTok{"MISE(Phi)"}\NormalTok{, }\StringTok{"MISE(Psi)"}\NormalTok{)}
+\NormalTok{e2function }\OtherTok{\textless{}{-}} \FunctionTok{array}\NormalTok{(}\AttributeTok{dim =} \FunctionTok{c}\NormalTok{(L, nsim, }\DecValTok{8}\NormalTok{))}
+\NormalTok{e2value }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow =}\NormalTok{ nsim,}\AttributeTok{ncol=}\NormalTok{K1}\SpecialCharTok{+}\NormalTok{K2)}
+\CommentTok{\#data generation}
+\ControlFlowTok{for}\NormalTok{ (iter }\ControlFlowTok{in} \DecValTok{1} \SpecialCharTok{:}\NormalTok{nsim) \{}
+\NormalTok{  data0 }\OtherTok{\textless{}{-}} \FunctionTok{GeneData}\NormalTok{(}\AttributeTok{I =}\NormalTok{ I, }\AttributeTok{J =}\NormalTok{ J, }\AttributeTok{L =}\NormalTok{ L, }\AttributeTok{design =}\NormalTok{ design, }\AttributeTok{sigma =}\NormalTok{ sigma, }\AttributeTok{balanced =}\NormalTok{ balance, }\AttributeTok{level =} \FloatTok{0.5}\NormalTok{)}
+\NormalTok{Y }\OtherTok{\textless{}{-}}\NormalTok{ data0}\SpecialCharTok{$}\NormalTok{Y}
+\DocumentationTok{\#\# true eigenvalues and eigenfunctions}
+\NormalTok{  evalues\_true }\OtherTok{\textless{}{-}}\NormalTok{ data0}\SpecialCharTok{$}\NormalTok{evalues }
+\NormalTok{  eigenf\_true }\OtherTok{\textless{}{-}}\NormalTok{ data0}\SpecialCharTok{$}\NormalTok{eigenfunctions}
+\CommentTok{\#store data}
+\NormalTok{  element\_number }\OtherTok{\textless{}{-}} \FunctionTok{sequence}\NormalTok{(}\FunctionTok{table}\NormalTok{(data0}\SpecialCharTok{$}\NormalTok{id))  }
+\NormalTok{  Index\_A  }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(data0}\SpecialCharTok{$}\NormalTok{id, element\_number) }
+  
+\CommentTok{\#set missing data}
+\NormalTok{  missing\_rate }\OtherTok{=} \FloatTok{0.95}
+\NormalTok{  num\_missing }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(missing\_rate }\SpecialCharTok{*} \FunctionTok{length}\NormalTok{(Y))  }
+\NormalTok{  missing\_indices }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\FunctionTok{length}\NormalTok{(Y), num\_missing) }
+\NormalTok{  Y[missing\_indices] }\OtherTok{\textless{}{-}} \ConstantTok{NA}  
+  
+\CommentTok{\#use sim\_res to store some criteria}
+\NormalTok{sim\_res }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\AttributeTok{nrow =}\NormalTok{ nsim, }\AttributeTok{ncol =} \DecValTok{8}\NormalTok{), }\FunctionTok{rep}\NormalTok{(}\ConstantTok{NA}\NormalTok{,nsim))}
+\FunctionTok{colnames}\NormalTok{(sim\_res) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"I"}\NormalTok{, }\StringTok{"J"}\NormalTok{, }\StringTok{"L"}\NormalTok{, }\StringTok{"iteration"}\NormalTok{, }
+                       \StringTok{"comptime"}\NormalTok{, }\StringTok{"MISE(Y)"}\NormalTok{, }\StringTok{"MISE(Phi)"}\NormalTok{, }\StringTok{"MISE(Psi)"}\NormalTok{, }\StringTok{"method"}\NormalTok{)}
+
+\CommentTok{\#organize data into the form FACE function needing}
+\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(Y)}
+\NormalTok{Tt }\OtherTok{\textless{}{-}} \FunctionTok{ncol}\NormalTok{(Y)}
+\NormalTok{id }\OtherTok{\textless{}{-}}\NormalTok{ Index\_A[}\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(Index\_A), }\AttributeTok{each =}\NormalTok{ L),}\DecValTok{1}\NormalTok{ ]  }
+\NormalTok{t }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{L,}\AttributeTok{times=}\NormalTok{n)}
+\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{as.vector}\NormalTok{(}\FunctionTok{t}\NormalTok{(Y))}
+\NormalTok{sel }\OtherTok{\textless{}{-}} \FunctionTok{which}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(y))}
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{y=}\NormalTok{(y[}\SpecialCharTok{{-}}\NormalTok{sel]),}
+\AttributeTok{argvals =}\NormalTok{ t[}\SpecialCharTok{{-}}\NormalTok{sel],}
+\AttributeTok{subj =}\NormalTok{ id[}\SpecialCharTok{{-}}\NormalTok{sel])}
+
+\CommentTok{\#FACE 1.0, calculate total variance }
+\DocumentationTok{\#\# set calculate.scores to TRUE if want to get scores}
+\NormalTok{ptm }\OtherTok{\textless{}{-}} \FunctionTok{proc.time}\NormalTok{() }\CommentTok{\#timing}
+\NormalTok{fit\_face }\OtherTok{\textless{}{-}} \FunctionTok{face.sparse}\NormalTok{(data,}\AttributeTok{argvals.new=}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{L),}\AttributeTok{calculate.scores=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{time\_fast }\OtherTok{\textless{}{-}} \FunctionTok{proc.time}\NormalTok{() }\SpecialCharTok{{-}}\NormalTok{ ptm}
+\NormalTok{scores }\OtherTok{\textless{}{-}}\NormalTok{ fit\_face}\SpecialCharTok{$}\NormalTok{rand\_eff}\SpecialCharTok{$}\NormalTok{scores}
+\NormalTok{data.h }\OtherTok{\textless{}{-}}\NormalTok{ data}
+\NormalTok{tnew }\OtherTok{\textless{}{-}}\NormalTok{ fit\_face}\SpecialCharTok{$}\NormalTok{argvals.new}
+
+ 
+\DocumentationTok{\#\#\#\#\#FACE2.0 within subject calculation\#\#\#\#}
+
+\CommentTok{\#take average by subject}
+\NormalTok{mean\_sub }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\DecValTok{0}\NormalTok{,}\AttributeTok{nrow=}\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(Index\_A[,}\DecValTok{2}\NormalTok{])),}\AttributeTok{ncol=}\NormalTok{T)  }\CommentTok{\#store }
+\NormalTok{B }\OtherTok{\textless{}{-}}\NormalTok{ Index\_A[,}\DecValTok{2}\NormalTok{]}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \FunctionTok{unique}\NormalTok{(Index\_A[,}\DecValTok{2}\NormalTok{])) \{  }
+\NormalTok{  temp }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(Y[B}\SpecialCharTok{==}\NormalTok{i], }\AttributeTok{ncol =}\NormalTok{ T, }\AttributeTok{byrow =} \ConstantTok{TRUE}\NormalTok{)  }
+\NormalTok{  mean\_sub[i,] }\OtherTok{\textless{}{-}} \FunctionTok{colMeans}\NormalTok{(temp,}\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{)}
+    \CommentTok{\# mean(A[,na.rm = TRUE)  }
+\NormalTok{\}  }
+\CommentTok{\#Subtract the mean within subject}
+\NormalTok{Y\_2 }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\DecValTok{0}\NormalTok{,}\FunctionTok{nrow}\NormalTok{(Y),L)}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(Y)) \{}
+\NormalTok{  Y\_2[i,] }\OtherTok{\textless{}{-}}\NormalTok{ Y[i,] }\SpecialCharTok{{-}}\NormalTok{ mean\_sub[B[i],]}
+\NormalTok{\}}
+\NormalTok{y2 }\OtherTok{\textless{}{-}} \FunctionTok{as.vector}\NormalTok{(}\FunctionTok{t}\NormalTok{(Y\_2))}
+\CommentTok{\# sel \textless{}{-} which(is.na(y))}
+\DocumentationTok{\#\# organize data and apply FACEs}
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{y=}\NormalTok{(y2[}\SpecialCharTok{{-}}\NormalTok{sel]),}
+\AttributeTok{argvals =}\NormalTok{ t[}\SpecialCharTok{{-}}\NormalTok{sel],}
+\AttributeTok{subj =}\NormalTok{ id[}\SpecialCharTok{{-}}\NormalTok{sel])}
+
+\CommentTok{\#FACE function and timing}
+\NormalTok{ptm }\OtherTok{\textless{}{-}} \FunctionTok{proc.time}\NormalTok{()}
+\NormalTok{fit\_face\_w }\OtherTok{\textless{}{-}} \FunctionTok{face.sparse}\NormalTok{(data,}\AttributeTok{argvals.new=}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{L),}\AttributeTok{calculate.scores =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{time\_fast }\OtherTok{\textless{}{-}} \FunctionTok{proc.time}\NormalTok{() }\SpecialCharTok{{-}}\NormalTok{ ptm}
+
+\CommentTok{\#calculate between subject variance, eigen functions and value}
+\NormalTok{  Theta\_t }\OtherTok{=}\NormalTok{ fit\_face}\SpecialCharTok{$}\NormalTok{Theta }
+\NormalTok{  Theta\_w }\OtherTok{=}\NormalTok{ fit\_face\_w}\SpecialCharTok{$}\NormalTok{Theta}
+\NormalTok{  Theta\_b }\OtherTok{=}\NormalTok{ Theta\_t}\SpecialCharTok{{-}}\NormalTok{Theta\_w}
+\NormalTok{  ef\_t }\OtherTok{=}\NormalTok{ fit\_face}\SpecialCharTok{$}\NormalTok{eigenfunctions}
+\NormalTok{  ef\_w }\OtherTok{=}\NormalTok{ fit\_face\_w}\SpecialCharTok{$}\NormalTok{eigenfunctions}
+\NormalTok{  ef\_b }\OtherTok{=}\NormalTok{ ef\_w[,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{]}\SpecialCharTok{\%*\%}\NormalTok{ (}\FunctionTok{solve}\NormalTok{(}\FunctionTok{eigen}\NormalTok{(Theta\_w)}\SpecialCharTok{$}\NormalTok{vectors)}\SpecialCharTok{\%*\%}\FunctionTok{eigen}\NormalTok{(Theta\_t}\SpecialCharTok{{-}}\NormalTok{Theta\_w)}\SpecialCharTok{$}\NormalTok{vectors)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{]}
+\NormalTok{  evalue\_b }\OtherTok{\textless{}{-}} \FunctionTok{eigen}\NormalTok{(Theta\_b,}\AttributeTok{symmetric =} \ConstantTok{TRUE}\NormalTok{)}\SpecialCharTok{$}\NormalTok{value[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{]}
+  
+\CommentTok{\# evalue\_b \textless{}{-} evalue\_b/evalue\_b[1]}
+\NormalTok{  e2function[,iter,}\DecValTok{1}\NormalTok{]  }\OtherTok{\textless{}{-}}\NormalTok{ fit\_face\_w[[}\StringTok{"eigenfunctions"}\NormalTok{]][,}\DecValTok{1}\NormalTok{]}
+\NormalTok{  e2function[,iter,}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ fit\_face\_w[[}\StringTok{"eigenfunctions"}\NormalTok{]][,}\DecValTok{2}\NormalTok{]}
+\NormalTok{  e2function[,iter,}\DecValTok{3}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ fit\_face\_w[[}\StringTok{"eigenfunctions"}\NormalTok{]][,}\DecValTok{3}\NormalTok{]}
+\NormalTok{  e2function[,iter,}\DecValTok{4}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ fit\_face\_w[[}\StringTok{"eigenfunctions"}\NormalTok{]][,}\DecValTok{4}\NormalTok{]}
+  
+\NormalTok{  e2function[,iter,}\DecValTok{5}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ ef\_b[,}\DecValTok{1}\NormalTok{]}
+\NormalTok{  e2function[,iter,}\DecValTok{6}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ ef\_b[,}\DecValTok{2}\NormalTok{]}
+\NormalTok{  e2function[,iter,}\DecValTok{7}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ ef\_b[,}\DecValTok{3}\NormalTok{]}
+\NormalTok{  e2function[,iter,}\DecValTok{8}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ ef\_b[,}\DecValTok{4}\NormalTok{]}
+  
+\NormalTok{  e2value[iter,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ fit\_face\_w[[}\StringTok{"eigenvalues"}\NormalTok{]][}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{]}
+\NormalTok{  e2value[iter,}\DecValTok{5}\SpecialCharTok{:}\DecValTok{8}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ evalue\_b[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{]}
+  
+  \CommentTok{\#MISE of Y}
+\NormalTok{  diff1 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{((}\FunctionTok{abs}\NormalTok{(fit\_face\_w}\SpecialCharTok{$}\NormalTok{y.pred)}\SpecialCharTok{{-}}\FunctionTok{abs}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{y))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+  \CommentTok{\# Xhat \textless{}{-} fit\_face\_w$eigenfunctions[,1:K2]\%*\%fit\_face\_w$eigenvalues[1:K2]+ef\_b\%*\%evalue\_b}
+\NormalTok{  MISE1\_Y }\OtherTok{\textless{}{-}}\NormalTok{ diff1}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{y}\SpecialCharTok{!=}\DecValTok{0}\NormalTok{)}
+  
+  \CommentTok{\# MISE of eigenfucntions}
+  \CommentTok{\# MISE1\_eigen1 \textless{}{-} sum(unlist(lapply(1:K1, function(x)\{}
+  \CommentTok{\#   min(sum((eigenf\_true[[1]][,x]{-}ef\_b)\^{}2),}
+  \CommentTok{\#       sum((eigenf\_true[[1]][,x]+ef\_b)\^{}2))\})))/(K1*L)}
+  \CommentTok{\# MISE1\_eigen2 \textless{}{-} sum(unlist(lapply(1:K2, function(x)\{}
+  \CommentTok{\#   min(sum((eigenf\_true[[2]][,x]{-}fit\_face\_w$eigenfunctions[,x])\^{}2),}
+  \CommentTok{\#       sum((eigenf\_true[[2]][,x]+fit\_face\_w$eigenfunctions[,x])\^{}2))\})))/(K2*L)}
+  
+  \CommentTok{\#MISE of eigenfunction (abs to deal with uncertain positive and negative)}
+\NormalTok{  MISE1\_eigen1 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(}\FunctionTok{lapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{K1, }\ControlFlowTok{function}\NormalTok{(x)\{}
+    \FunctionTok{sum}\NormalTok{((}\FunctionTok{abs}\NormalTok{(eigenf\_true[[}\DecValTok{1}\NormalTok{]][,x])}\SpecialCharTok{{-}}\FunctionTok{abs}\NormalTok{(ef\_b[,x]))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(K1}\SpecialCharTok{*}\NormalTok{L)\})))}
+\NormalTok{  MISE1\_eigen2 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(}\FunctionTok{lapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{K2, }\ControlFlowTok{function}\NormalTok{(x)\{}
+    \FunctionTok{sum}\NormalTok{((}\FunctionTok{abs}\NormalTok{(eigenf\_true[[}\DecValTok{2}\NormalTok{]][,x])}\SpecialCharTok{{-}}\FunctionTok{abs}\NormalTok{(fit\_face\_w}\SpecialCharTok{$}\NormalTok{eigenfunctions[,x]))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(K2}\SpecialCharTok{*}\NormalTok{L)\})))}
+\NormalTok{  sim\_res[iter,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{c}\NormalTok{(I, J, L, iter, time\_fast[}\DecValTok{3}\NormalTok{], MISE1\_Y, MISE1\_eigen1, MISE1\_eigen2),}\DecValTok{4}\NormalTok{)}
+  
+  \FunctionTok{print}\NormalTok{(iter)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1
+## [1] 2
+## [1] 3
+## [1] 4
+## [1] 5
+## [1] 6
+## [1] 7
+## [1] 8
+## [1] 9
+## [1] 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{\#output}
+  \FunctionTok{print}\NormalTok{(sim\_res)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      I  J  L iteration comptime MISE(Y) MISE(Phi) MISE(Psi) method
+## 1   NA NA NA        NA       NA      NA        NA        NA     NA
+## 2   NA NA NA        NA       NA      NA        NA        NA     NA
+## 3   NA NA NA        NA       NA      NA        NA        NA     NA
+## 4   NA NA NA        NA       NA      NA        NA        NA     NA
+## 5   NA NA NA        NA       NA      NA        NA        NA     NA
+## 6   NA NA NA        NA       NA      NA        NA        NA     NA
+## 7   NA NA NA        NA       NA      NA        NA        NA     NA
+## 8   NA NA NA        NA       NA      NA        NA        NA     NA
+## 9   NA NA NA        NA       NA      NA        NA        NA     NA
+## 10 100  2 50        10     6.77  2.5849    0.4944    0.4694     NA
+\end{verbatim}
+
+plot1: method1-eigenfunction (running it after running method 1)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)  }
+\FunctionTok{library}\NormalTok{(dplyr)  }
+
+\CommentTok{\# 创建示例数组A和B  }
+\NormalTok{A }\OtherTok{\textless{}{-}}\NormalTok{ eigenf\_true[[}\StringTok{"level1"}\NormalTok{]][,}\DecValTok{1}\NormalTok{]}
+\NormalTok{B }\OtherTok{\textless{}{-}}\NormalTok{ efunction1\_1}
+  \CommentTok{\# 创建时间序列  }
+\NormalTok{time\_A }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, L, }\AttributeTok{by =} \DecValTok{1}\NormalTok{)  }
+\NormalTok{time\_B }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, L, }\AttributeTok{by =}\NormalTok{nitem)}
+  
+\CommentTok{\#to deal with uncertain positive or negative, seek first min or max}
+\ControlFlowTok{if}\NormalTok{(}\FunctionTok{abs}\NormalTok{(A[}\DecValTok{1}\NormalTok{])}\SpecialCharTok{\textless{}}\FloatTok{0.8}\NormalTok{)\{}
+\NormalTok{  first\_A}\OtherTok{\textless{}{-}} \FunctionTok{min}\NormalTok{(}\FunctionTok{which}\NormalTok{(}\FunctionTok{diff}\NormalTok{(}\FunctionTok{sign}\NormalTok{(}\FunctionTok{diff}\NormalTok{(A))) }\SpecialCharTok{==} \SpecialCharTok{{-}}\DecValTok{2}\NormalTok{)[}\DecValTok{1}\NormalTok{],}\FunctionTok{which}\NormalTok{(}\FunctionTok{diff}\NormalTok{(}\FunctionTok{sign}\NormalTok{(}\FunctionTok{diff}\NormalTok{(A))) }\SpecialCharTok{==} \DecValTok{2}\NormalTok{)[}\DecValTok{1}\NormalTok{],}\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  first\_value\_A }\OtherTok{\textless{}{-}}\NormalTok{ A[first\_A]  }
+    \ControlFlowTok{for}\NormalTok{ (ii }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{dim}\NormalTok{(B)[}\DecValTok{2}\NormalTok{]) \{}
+\NormalTok{      first\_B}\OtherTok{\textless{}{-}} \FunctionTok{min}\NormalTok{(}\FunctionTok{which}\NormalTok{(}\FunctionTok{diff}\NormalTok{(}\FunctionTok{sign}\NormalTok{(}\FunctionTok{diff}\NormalTok{(B[,ii]))) }\SpecialCharTok{==} \SpecialCharTok{{-}}\DecValTok{2}\NormalTok{)[}\DecValTok{1}\NormalTok{],}\FunctionTok{which}\NormalTok{(}\FunctionTok{diff}\NormalTok{(}\FunctionTok{sign}\NormalTok{(}\FunctionTok{diff}\NormalTok{(B[,ii]))) }\SpecialCharTok{==} \DecValTok{2}\NormalTok{)[}\DecValTok{1}\NormalTok{],}\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{      first\_value\_B }\OtherTok{\textless{}{-}}\NormalTok{ B[first\_B,ii]  }
+      \DocumentationTok{\#\#如果异号，则颠倒}
+      \ControlFlowTok{if}\NormalTok{(first\_value\_A}\SpecialCharTok{*}\NormalTok{first\_value\_B }\SpecialCharTok{\textless{}}\DecValTok{0}\NormalTok{ )}
+\NormalTok{        B[,ii] }\OtherTok{\textless{}{-}} \SpecialCharTok{{-}}\NormalTok{B[,ii]}
+\NormalTok{    \}}
+\NormalTok{\}}\ControlFlowTok{else}\NormalTok{\{}
+\NormalTok{    first\_value\_A }\OtherTok{\textless{}{-}}\NormalTok{ A[}\DecValTok{1}\NormalTok{] }
+    \ControlFlowTok{for}\NormalTok{ (ii }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{dim}\NormalTok{(B)[}\DecValTok{2}\NormalTok{]) \{}
+\NormalTok{      first\_value\_B }\OtherTok{\textless{}{-}}\NormalTok{ B[}\DecValTok{1}\NormalTok{,ii]  }
+      \DocumentationTok{\#\#如果异号，则颠倒}
+      \ControlFlowTok{if}\NormalTok{(first\_value\_A}\SpecialCharTok{*}\NormalTok{first\_value\_B }\SpecialCharTok{\textless{}}\DecValTok{0}\NormalTok{ )}
+\NormalTok{        B[,ii] }\OtherTok{=} \SpecialCharTok{{-}}\NormalTok{B[,ii]}
+\NormalTok{    \}}
+\NormalTok{\}}
+
+\CommentTok{\# data frame for plotting}
+\NormalTok{df\_A }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(  }
+  \AttributeTok{time =}\NormalTok{ time\_A,  }
+  \AttributeTok{value =}\NormalTok{ A,  }
+  \AttributeTok{group =} \StringTok{"A"}  
+\NormalTok{)  }
+  
+\CommentTok{\# df\_B \textless{}{-} data.frame(  }
+\CommentTok{\#   time = time\_B,  }
+\CommentTok{\#   value = as.vector(B),  }
+\CommentTok{\#   group = "B"  }
+\CommentTok{\# )  }
+\NormalTok{df\_B }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{dim}\NormalTok{(B)[}\DecValTok{2}\NormalTok{], }\ControlFlowTok{function}\NormalTok{(ii) \{  }
+  \FunctionTok{data.frame}\NormalTok{(  }
+    \AttributeTok{time =}\NormalTok{ time\_B,  }
+    \AttributeTok{value =}\NormalTok{ B[, ii],  }
+    \AttributeTok{group =} \FunctionTok{paste0}\NormalTok{(}\StringTok{"B"}\NormalTok{, ii)  }
+\NormalTok{  )  }
+\NormalTok{\})  }
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(df\_A, }\FunctionTok{do.call}\NormalTok{(rbind, df\_B))  }
+    
+\CommentTok{\# plotting}
+\NormalTok{colors\_vector }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"\#000000"}\NormalTok{, }\FunctionTok{rep}\NormalTok{(}\StringTok{"\#FFC0CB"}\NormalTok{, }\DecValTok{10}\NormalTok{))   }\CommentTok{\#set the color you want}
+\NormalTok{ plot }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ time, }\AttributeTok{y =}\NormalTok{ value, }\AttributeTok{linetype =} \FunctionTok{factor}\NormalTok{(group))) }\SpecialCharTok{+}      
+     \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{color =} \FunctionTok{factor}\NormalTok{(group), }\AttributeTok{linetype =} \FunctionTok{factor}\NormalTok{(group))) }\SpecialCharTok{+}    
+     \FunctionTok{scale\_color\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ colors\_vector) }\SpecialCharTok{+}    
+     \FunctionTok{scale\_linetype\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"solid"}\NormalTok{, }\FunctionTok{rep}\NormalTok{(}\StringTok{"dashed"}\NormalTok{, }\DecValTok{10}\NormalTok{))) }\SpecialCharTok{+}  
+     \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{)  }
+\CommentTok{\# ggsave("e2f2\_1.png", plot, width = 6, height = 4, units = "in", dpi = 300) \#code to save picture}
+\FunctionTok{print}\NormalTok{(plot)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{multi_sparse_mfpca_files/figure-latex/unnamed-chunk-4-1.pdf}
+plot:method2- eigenfunction (running it after running method2)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)  }
+\FunctionTok{library}\NormalTok{(dplyr)  }
+
+\NormalTok{A }\OtherTok{\textless{}{-}}\NormalTok{ eigenf\_true[[}\StringTok{"level2"}\NormalTok{]][,}\DecValTok{4}\NormalTok{] }\CommentTok{\#true eigenFunction, set different level and rank while plotting}
+\NormalTok{len }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(A)}
+\NormalTok{B }\OtherTok{\textless{}{-}}\NormalTok{ e2function[,,}\DecValTok{8}\NormalTok{] }\CommentTok{\#simulation data, set different level and rank while plotting}
+
+\CommentTok{\#to deal with uncertain positive or negative, seek first min or max}
+\ControlFlowTok{if}\NormalTok{(}\FunctionTok{abs}\NormalTok{(A[}\DecValTok{1}\NormalTok{])}\SpecialCharTok{\textless{}}\FloatTok{0.8}\NormalTok{)\{}
+\NormalTok{  first\_A}\OtherTok{\textless{}{-}} \FunctionTok{min}\NormalTok{(}\FunctionTok{which}\NormalTok{(}\FunctionTok{diff}\NormalTok{(}\FunctionTok{sign}\NormalTok{(}\FunctionTok{diff}\NormalTok{(A))) }\SpecialCharTok{==} \SpecialCharTok{{-}}\DecValTok{2}\NormalTok{)[}\DecValTok{1}\NormalTok{],}\FunctionTok{which}\NormalTok{(}\FunctionTok{diff}\NormalTok{(}\FunctionTok{sign}\NormalTok{(}\FunctionTok{diff}\NormalTok{(A))) }\SpecialCharTok{==} \DecValTok{2}\NormalTok{)[}\DecValTok{1}\NormalTok{],}\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  first\_value\_A }\OtherTok{\textless{}{-}}\NormalTok{ A[first\_A]  }
+    \ControlFlowTok{for}\NormalTok{ (ii }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{dim}\NormalTok{(B)[}\DecValTok{2}\NormalTok{]) \{}
+\NormalTok{      first\_B}\OtherTok{\textless{}{-}} \FunctionTok{min}\NormalTok{(}\FunctionTok{which}\NormalTok{(}\FunctionTok{diff}\NormalTok{(}\FunctionTok{sign}\NormalTok{(}\FunctionTok{diff}\NormalTok{(B[,ii]))) }\SpecialCharTok{==} \SpecialCharTok{{-}}\DecValTok{2}\NormalTok{)[}\DecValTok{1}\NormalTok{],}\FunctionTok{which}\NormalTok{(}\FunctionTok{diff}\NormalTok{(}\FunctionTok{sign}\NormalTok{(}\FunctionTok{diff}\NormalTok{(B[,ii]))) }\SpecialCharTok{==} \DecValTok{2}\NormalTok{)[}\DecValTok{1}\NormalTok{],}\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{      first\_value\_B }\OtherTok{\textless{}{-}}\NormalTok{ B[first\_B,ii]  }
+      \DocumentationTok{\#\#如果异号，则颠倒}
+      \ControlFlowTok{if}\NormalTok{(first\_value\_A}\SpecialCharTok{*}\NormalTok{first\_value\_B }\SpecialCharTok{\textless{}}\DecValTok{0}\NormalTok{ )}
+\NormalTok{        B[,ii] }\OtherTok{\textless{}{-}} \SpecialCharTok{{-}}\NormalTok{B[,ii]}
+\NormalTok{    \}}
+\NormalTok{\}}\ControlFlowTok{else}\NormalTok{\{}
+\NormalTok{    first\_value\_A }\OtherTok{\textless{}{-}}\NormalTok{ A[}\DecValTok{1}\NormalTok{] }
+    \ControlFlowTok{for}\NormalTok{ (ii }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{dim}\NormalTok{(B)[}\DecValTok{2}\NormalTok{]) \{}
+\NormalTok{      first\_value\_B }\OtherTok{\textless{}{-}}\NormalTok{ B[}\DecValTok{1}\NormalTok{,ii]  }
+      \DocumentationTok{\#\#如果异号，则颠倒}
+      \ControlFlowTok{if}\NormalTok{(first\_value\_A}\SpecialCharTok{*}\NormalTok{first\_value\_B }\SpecialCharTok{\textless{}}\DecValTok{0}\NormalTok{ )}
+\NormalTok{        B[,ii] }\OtherTok{=} \SpecialCharTok{{-}}\NormalTok{B[,ii]}
+\NormalTok{    \}}
+\NormalTok{\}}
+
+\CommentTok{\# time series to plot}
+\NormalTok{time\_A }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, len, }\AttributeTok{by =} \DecValTok{1}\NormalTok{)  }
+\CommentTok{\#for method1:block}
+\CommentTok{\# time\_B \textless{}{-} seq(1, len, by = nitem)[1:200]  \# 通过选择前200个元素来匹配数组B的长度 ,block}
+\CommentTok{\# for method 2}
+\NormalTok{time\_B }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, len, }\AttributeTok{by =} \DecValTok{1}\NormalTok{)}
+
+\CommentTok{\# data frame}
+\NormalTok{df\_A }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(  }
+  \AttributeTok{time =}\NormalTok{ time\_A,  }
+  \AttributeTok{value =}\NormalTok{ A,  }
+  \AttributeTok{group =} \StringTok{"A"}  
+\NormalTok{)  }
+  
+\CommentTok{\# df\_B \textless{}{-} data.frame(  }
+\CommentTok{\#   time = rep(time\_B, 10),  }
+\CommentTok{\#   value = as.vector(B),  }
+\CommentTok{\#   group = "B"  }
+\CommentTok{\# )  }
+\CommentTok{\#   }
+\CommentTok{\# df \textless{}{-} rbind(df\_A, df\_B)  \# 合并A和B的数据框  }
+
+  \CommentTok{\# 创建包含所有组数据的数据框列表  }
+\NormalTok{df\_B\_list }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{dim}\NormalTok{(B)[}\DecValTok{2}\NormalTok{], }\ControlFlowTok{function}\NormalTok{(ii) \{  }
+  \FunctionTok{data.frame}\NormalTok{(  }
+    \AttributeTok{time =}\NormalTok{ time\_B,  }
+    \AttributeTok{value =}\NormalTok{ B[, ii],  }
+    \AttributeTok{group =} \FunctionTok{paste0}\NormalTok{(}\StringTok{"B"}\NormalTok{, ii)  }
+\NormalTok{  )  }
+\NormalTok{\})  }
+  
+\CommentTok{\# 合并A和B的数据框  }
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(df\_A, }\FunctionTok{do.call}\NormalTok{(rbind, df\_B\_list)) }
+
+\CommentTok{\# \# 使用ggplot2创建折线图，设置A和B数组的颜色  }
+\CommentTok{\# plot \textless{}{-} ggplot(df, aes(x = time, y = value, color = factor(group), linetype = factor(group))) +    }
+\CommentTok{\#   geom\_line(aes(linetype = factor(group))) +  }
+\CommentTok{\#   scale\_color\_manual(values = c("A" = "\#000000", "B" = "\#FF0000"),guide = FALSE ) +  }
+\CommentTok{\#   theme(legend.position = "none")  }
+\CommentTok{\# 创建一个包含所有组的颜色向量  }
+  
+\NormalTok{colors\_vector }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"\#000000"}\NormalTok{, }\FunctionTok{rep}\NormalTok{(}\StringTok{"\#FFC0CB"}\NormalTok{, }\DecValTok{10}\NormalTok{))  }
+ 
+ \CommentTok{\# 使用这个颜色向量来绘制图表  }
+\NormalTok{ plot }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ time, }\AttributeTok{y =}\NormalTok{ value, }\AttributeTok{linetype =} \FunctionTok{factor}\NormalTok{(group))) }\SpecialCharTok{+}      
+     \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{color =} \FunctionTok{factor}\NormalTok{(group), }\AttributeTok{linetype =} \FunctionTok{factor}\NormalTok{(group))) }\SpecialCharTok{+}    
+     \FunctionTok{scale\_color\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ colors\_vector) }\SpecialCharTok{+}    
+     \FunctionTok{scale\_linetype\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"solid"}\NormalTok{, }\FunctionTok{rep}\NormalTok{(}\StringTok{"dashed"}\NormalTok{, }\DecValTok{10}\NormalTok{))) }\SpecialCharTok{+}  
+     \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{)  }
+\CommentTok{\# ggsave("e2f2\_4.png", plot, width = 6, height = 4, units = "in", dpi = 300)}
+\FunctionTok{print}\NormalTok{(plot)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{multi_sparse_mfpca_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+plot:eigen value- box plotting
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{array}\NormalTok{(}\AttributeTok{dim =}\NormalTok{ K1}\SpecialCharTok{+}\NormalTok{K2)}
+\NormalTok{y[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{evalues\_true}\SpecialCharTok{$}\NormalTok{level1}
+\NormalTok{y[}\DecValTok{5}\SpecialCharTok{:}\DecValTok{8}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ evalues\_true}\SpecialCharTok{$}\NormalTok{level2}
+
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(  }
+  \AttributeTok{group =} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{, }\AttributeTok{each =}\NormalTok{ nsim),  }
+  \CommentTok{\# value = c(evalue),  \#method1}
+  \AttributeTok{value =} \FunctionTok{c}\NormalTok{(e2value),  }\CommentTok{\#method2}
+  \AttributeTok{real\_value =}\NormalTok{ y  }
+\NormalTok{)  }
+\NormalTok{df\_points}\OtherTok{\textless{}{-}}\FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{group =} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{),  }
+  \AttributeTok{value =}\NormalTok{ y  }
+\NormalTok{)  }
+
+\CommentTok{\#  box plot }
+\NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{factor}\NormalTok{(group), }\AttributeTok{y =}\NormalTok{ value)) }\SpecialCharTok{+}  
+  \FunctionTok{geom\_boxplot}\NormalTok{()  }
+  
+\CommentTok{\# red point}
+\NormalTok{p }\OtherTok{\textless{}{-}}\NormalTok{p }\SpecialCharTok{+}   \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{data=}\NormalTok{df\_points,}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\FunctionTok{factor}\NormalTok{(group), }\AttributeTok{y =}\NormalTok{ value), }\AttributeTok{color =} \StringTok{"red"}\NormalTok{, }\AttributeTok{size =} \DecValTok{1}\NormalTok{)  }\SpecialCharTok{+}
+  \FunctionTok{coord\_cartesian}\NormalTok{(}\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{))   }\CommentTok{\#y axe range}
+\FunctionTok{print}\NormalTok{(p)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{multi_sparse_mfpca_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{setwd}\NormalTok{(}\StringTok{"\textasciitilde{}/Desktop/functional data analysis/R package"}\NormalTok{)}
+\FunctionTok{ggsave}\NormalTok{(}\StringTok{"evalue2.png"}\NormalTok{, p, }\AttributeTok{width =} \DecValTok{6}\NormalTok{, }\AttributeTok{height =} \DecValTok{4}\NormalTok{, }\AttributeTok{units =} \StringTok{"in"}\NormalTok{, }\AttributeTok{dpi =} \DecValTok{300}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+method3: mfpca directly, for comparison
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{0107}\NormalTok{)}
+\NormalTok{L}\OtherTok{=}\DecValTok{50} 
+
+\CommentTok{\#generate original data}
+\NormalTok{  data }\OtherTok{\textless{}{-}} \FunctionTok{GeneData}\NormalTok{(}\AttributeTok{I =}\NormalTok{ I, }\AttributeTok{J =}\NormalTok{ J, }\AttributeTok{L =}\NormalTok{ L, }\AttributeTok{design =}\NormalTok{ design, }\AttributeTok{sigma =}\NormalTok{ sigma, }\AttributeTok{balanced =}\NormalTok{ balance, }\AttributeTok{level =} \FloatTok{0.5}\NormalTok{)}
+\NormalTok{  Y }\OtherTok{\textless{}{-}}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{Y}
+  \CommentTok{\#store true eigen value and function }
+\NormalTok{  evalues\_true }\OtherTok{\textless{}{-}}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{evalues }
+\NormalTok{  eigenf\_true }\OtherTok{\textless{}{-}}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{eigenfunctions}
+ 
+\CommentTok{\#Extract  id from data(genedata function)}
+\NormalTok{  element\_number }\OtherTok{\textless{}{-}} \FunctionTok{sequence}\NormalTok{(}\FunctionTok{table}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{id))  }
+\NormalTok{  id\_index  }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{id, element\_number)  }
+  
+  \CommentTok{\#set missing data}
+\NormalTok{  missing\_rate }\OtherTok{\textless{}{-}} \FloatTok{0.2}
+\NormalTok{  num\_missing }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(missing\_rate }\SpecialCharTok{*} \FunctionTok{length}\NormalTok{(Y))  }\CommentTok{\#how many}
+\NormalTok{  missing\_indices }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\FunctionTok{length}\NormalTok{(Y), num\_missing)  }\CommentTok{\# position  }
+\NormalTok{  Y[missing\_indices] }\OtherTok{\textless{}{-}} \ConstantTok{NA}  
+  
+ 
+  \CommentTok{\#mfpca function \&timing}
+\NormalTok{  ptm }\OtherTok{\textless{}{-}} \FunctionTok{proc.time}\NormalTok{() }
+\NormalTok{  mfpca.Y }\OtherTok{\textless{}{-}} \FunctionTok{mfpca.face}\NormalTok{(}\AttributeTok{Y =}\NormalTok{ Y, }\AttributeTok{id =}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{id)}
+\NormalTok{  time\_fast }\OtherTok{\textless{}{-}} \FunctionTok{proc.time}\NormalTok{() }\SpecialCharTok{{-}}\NormalTok{ ptm}
+ 
+  \CommentTok{\#MISE of Y}
+\NormalTok{  diff1}\OtherTok{=}\DecValTok{0}
+\NormalTok{  num}\OtherTok{=}\DecValTok{0}
+  \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(Y))\{}
+\NormalTok{      idx }\OtherTok{=} \FunctionTok{which}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(Y[i, ]))}
+\NormalTok{      num }\OtherTok{=}\NormalTok{ num }\SpecialCharTok{+} \FunctionTok{length}\NormalTok{(idx)}
+\NormalTok{      diff1 }\OtherTok{=}\NormalTok{ diff1 }\SpecialCharTok{+} \FunctionTok{sum}\NormalTok{(}\FunctionTok{abs}\NormalTok{(mfpca.Y}\SpecialCharTok{$}\NormalTok{Xhat[i,idx]}\SpecialCharTok{{-}}\NormalTok{Y[i,idx])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{  MISE1\_Y }\OtherTok{\textless{}{-}}\NormalTok{ diff1}\SpecialCharTok{/}\NormalTok{num}
+  
+  \CommentTok{\# MISE of eigenfucntions}
+\NormalTok{  MISE1\_eigen1 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(}\FunctionTok{lapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{K1, }\ControlFlowTok{function}\NormalTok{(x)\{}
+    \FunctionTok{min}\NormalTok{(}\FunctionTok{sum}\NormalTok{((eigenf\_true[[}\DecValTok{1}\NormalTok{]][,x]}\SpecialCharTok{{-}}\NormalTok{mfpca.Y }\SpecialCharTok{$}\NormalTok{efunctions[[}\DecValTok{1}\NormalTok{]][,x])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{),}
+        \FunctionTok{sum}\NormalTok{((eigenf\_true[[}\DecValTok{1}\NormalTok{]][,x]}\SpecialCharTok{+}\NormalTok{mfpca.Y }\SpecialCharTok{$}\NormalTok{efunctions[[}\DecValTok{1}\NormalTok{]][,x])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))\})))}\SpecialCharTok{/}\NormalTok{(K1}\SpecialCharTok{*}\NormalTok{L)}
+\NormalTok{  MISE1\_eigen2 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(}\FunctionTok{lapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{K2, }\ControlFlowTok{function}\NormalTok{(x)\{}
+    \FunctionTok{min}\NormalTok{(}\FunctionTok{sum}\NormalTok{((eigenf\_true[[}\DecValTok{2}\NormalTok{]][,x]}\SpecialCharTok{{-}}\NormalTok{mfpca.Y }\SpecialCharTok{$}\NormalTok{efunctions[[}\DecValTok{2}\NormalTok{]][,x])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{),}
+        \FunctionTok{sum}\NormalTok{((eigenf\_true[[}\DecValTok{2}\NormalTok{]][,x]}\SpecialCharTok{+}\NormalTok{mfpca.Y }\SpecialCharTok{$}\NormalTok{efunctions[[}\DecValTok{2}\NormalTok{]][,x])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))\})))}\SpecialCharTok{/}\NormalTok{(K2}\SpecialCharTok{*}\NormalTok{L)}
+  
+  \CommentTok{\#output and print}
+\NormalTok{  sim\_res }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\AttributeTok{nrow =} \DecValTok{1}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{8}\NormalTok{), }\FunctionTok{rep}\NormalTok{(}\ConstantTok{NA}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+  \FunctionTok{colnames}\NormalTok{(sim\_res) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"I"}\NormalTok{, }\StringTok{"J"}\NormalTok{, }\StringTok{"L"}\NormalTok{, }\StringTok{"iteration"}\NormalTok{, }
+                         \StringTok{"comptime"}\NormalTok{, }\StringTok{"MISE(Y)"}\NormalTok{, }\StringTok{"MISE(Phi)"}\NormalTok{, }\StringTok{"MISE(Psi)"}\NormalTok{, }\StringTok{"method"}\NormalTok{)}
+\NormalTok{  ind }\OtherTok{\textless{}{-}}\DecValTok{1} 
+\NormalTok{  sim\_res[ind,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{c}\NormalTok{(I, J, L, iter, time\_fast[}\DecValTok{3}\NormalTok{], MISE1\_Y, MISE1\_eigen1, MISE1\_eigen2),}\DecValTok{4}\NormalTok{)}
+\NormalTok{  sim\_res[ind,}\DecValTok{9}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"mfpca.face (visit)"}
+  
+  \FunctionTok{print}\NormalTok{(sim\_res)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     I J  L iteration comptime MISE(Y) MISE(Phi) MISE(Psi)             method
+## 1 100 2 50        10    0.693  0.4434    0.1222    0.0521 mfpca.face (visit)
+\end{verbatim}
+
+\end{document}

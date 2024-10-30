@@ -1,5 +1,0 @@
-```{r}
-data(DTI)
-mfpca.DTI <- mfpca.face(Y = DTI$cca, id = DTI$ID, twoway = TRUE)
-```
-
